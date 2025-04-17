@@ -13,14 +13,14 @@ static const char* COD_TAG = "BT_COD";
 
 // Major Service Classes (bits 16-23)
 typedef enum {
-    BT_SERVICE_POSITIONING    = (1 << 16),
-    BT_SERVICE_NETWORKING     = (1 << 17),
-    BT_SERVICE_RENDERING      = (1 << 18),
-    BT_SERVICE_CAPTURING      = (1 << 19),
-    BT_SERVICE_OBJECT_TRANSFER= (1 << 20),
-    BT_SERVICE_AUDIO          = (1 << 21),
-    BT_SERVICE_TELEPHONY      = (1 << 22),
-    BT_SERVICE_INFORMATION    = (1 << 23)
+    BT_SERVICE_POSITIONING    = (1 << 3),
+    BT_SERVICE_NETWORKING     = (1 << 4),
+    BT_SERVICE_RENDERING      = (1 << 5),
+    BT_SERVICE_CAPTURING      = (1 << 6),
+    BT_SERVICE_OBJECT_TRANSFER= (1 << 7),
+    BT_SERVICE_AUDIO          = (1 << 8),
+    BT_SERVICE_TELEPHONY      = (1 << 9),
+    BT_SERVICE_INFORMATION    = (1 << 10)
 } bt_service_class_t;
 
 // Major Device Classes (bits 8-12)

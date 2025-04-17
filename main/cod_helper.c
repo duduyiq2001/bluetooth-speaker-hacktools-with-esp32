@@ -86,7 +86,7 @@ bool is_audio_device(uint32_t cod) {
     }
     
     // Check for relevant service classes
-    uint32_t service_classes = (cod >> 16) & 0xFF;
+    uint32_t service_classes = (cod >> 13) & 0x07FF;
     if (!(service_classes & (BT_SERVICE_AUDIO | BT_SERVICE_RENDERING))) {
         return false;
     }
