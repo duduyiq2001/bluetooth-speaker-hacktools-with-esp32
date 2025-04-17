@@ -1,4 +1,4 @@
-#include "avrcp_cniff.h"
+#include "avrcp_sniff.h"
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>

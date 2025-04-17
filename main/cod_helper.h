@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdint.h>
 
+#define CONFIG_BT_ACL_CONNECTIONS 6
 
 static const char* COD_TAG = "BT_COD";
 
