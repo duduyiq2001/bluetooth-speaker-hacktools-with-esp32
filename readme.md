@@ -9,7 +9,7 @@ This project provides a collection of exploits targeting Bluetooth speakers usin
 - Tools and scripts for testing and demonstration
 
 ## Requirements
-- Python 3.x
+- Python ^3.9 
 - Bluetooth-enabled device
 - ESP32-WROOM MCU (exploits are launched from this microcontroller)
 - Expressif IDF toolchain 
