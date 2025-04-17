@@ -55,10 +55,10 @@ void initialize_l2cap(){
 }
 
 void avrcp_sniff(esp_bd_addr_t target_bda){
-    esp_err_t ret = esp_bt_l2cap_connect(0, avrcp_psm, target_bda);
+    esp_err_t ret = esp_bt_l2cap_connect(avrcp_psm, avrcp_psm, target_bda);
     if (ret != ESP_OK) {
         ESP_LOGE(L2_TAG, "L2CAP connect failed: %d", ret);
         return;
     }
-    ESP_LOGE(L2_TAG, "L2CAP connect succeeded: %d", ret);
+    ESP_LOGI(L2_TAG, "L2CAP connect succeeded: %d", ret);
 }
