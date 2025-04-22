@@ -11,8 +11,11 @@
 static const char *AVR_TAG = "AVRCP_CAPABILITIES";
 static uint8_t current_transaction_label = 0;
 
+// Flag to indicate if AVRCP is ready
+extern bool avrcp_ready;
+
 // AVRCP callback
 void avrcp_ct_callback(esp_avrc_ct_cb_event_t event, esp_avrc_ct_cb_param_t *param);
 
-// genrate avrcp initialization function
+// AVRCP initialization function
 void avrcp_init();

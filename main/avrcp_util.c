@@ -1,5 +1,9 @@
 #include "avrcp_util.h"
 // AVRCP callback
+
+// Global flag to indicate if AVRCP is ready
+bool avrcp_ready = false;
+
 void avrcp_ct_callback(esp_avrc_ct_cb_event_t event, esp_avrc_ct_cb_param_t *param)
 {
     switch (event)
@@ -105,20 +109,26 @@ void avrcp_ct_callback(esp_avrc_ct_cb_event_t event, esp_avrc_ct_cb_param_t *par
     }
 }
 
-// genrate avrcp initialization function
+// avrcp initialization function
 void avrcp_init()
 {
+    ESP_LOGI(AVR_TAG, "Initializing AVRCP controller");
     esp_err_t ret = esp_avrc_ct_init();
     if (ret != ESP_OK)
     {
         ESP_LOGE(AVR_TAG, "Failed to initialize AVRCP: %s", esp_err_to_name(ret));
         return;
     }
-
+    
+    ESP_LOGI(AVR_TAG, "Registering AVRCP callback");
     ret = esp_avrc_ct_register_callback(avrcp_ct_callback);
     if (ret != ESP_OK)
     {
         ESP_LOGE(AVR_TAG, "Failed to register AVRCP callback: %s", esp_err_to_name(ret));
         return;
     }
+    
+    // Mark AVRCP as ready immediately since there's no initialization event
+    avrcp_ready = true;
+    ESP_LOGI(AVR_TAG, "AVRCP successfully initialized");
 }
