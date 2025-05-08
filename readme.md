@@ -1,12 +1,15 @@
-# Bluetooth Speaker Exploits
+# Bluetooth Speaker Exploits -- A2DP DDoS
 ![Security](https://img.shields.io/badge/category-security-red)
 ![Bluetooth](https://img.shields.io/badge/category-bluetooth-blue)
+
 This project provides a collection of exploits targeting Bluetooth speakers using esp32-wroom-32. It is intended for educational and research purposes only. Please use responsibly and ensure compliance with applicable laws and regulations.
 
 ## Features
-- Various exploit techniques for Bluetooth speakers
-- Focus on understanding vulnerabilities in Bluetooth protocols
-- Tools and scripts for testing and demonstration
+dos_attack.c implements an A2DP flooding attack:
+- Continuously attempts to connect to a hardcoded Bluetooth speaker MAC address.
+- Immediately disconnects after connection attempt or waits for timeout.
+- Repeats the process in a loop to block legitimate devices from pairing.
+- Operates passively; does not advertise itself, making detection harder.
 
 ## Requirements
 - Python ^3.9 
@@ -20,16 +23,15 @@ This project provides a collection of exploits targeting Bluetooth speakers usin
     ```bash
     git clone https://github.com/yourusername/speaker_exploit.git
     cd speaker_exploit
-    ```
-    
+    ```   
 
 ## Usage
-1. Ensure your Bluetooth device is discoverable.
-2. compile with idf.py build
+1. Open vscode and enable the esp32-idf extension
+2. Open this project through esp32-idf extension
 3. connect esp32 board to your laptop 
-4. flash the firmware 
-5. idf.py -p PORT monitor to check the eps32 logs
-
+4. Select the correct port which should be soemthing like /dev/tty.usbserial-0001
+5. Build the project and flash it to the ESP32 board through the esp32-idf extension
+6. You can see the logs in the terminal
 
 ## Disclaimer
 This project is for educational purposes only. The authors are not responsible for any misuse or damage caused by the use of this software.
